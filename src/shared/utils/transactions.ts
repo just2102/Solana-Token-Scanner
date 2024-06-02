@@ -55,7 +55,7 @@ export function checkBuyTransaction(
 export function getTokenSender(
   preTokenBalances: TokenBalance[],
   token: string,
-  tokenRecipient: string | undefined,
+  tokenRecipient: string,
   postTokenBalances: TokenBalance[],
 ): string | null {
   for (const postBalance of postTokenBalances) {

@@ -165,13 +165,14 @@ export class AppService {
         postTokenBalance.uiTokenAmount.uiAmount -
         preTokenBalance.uiTokenAmount.uiAmount;
 
-      const senderFromInstructions = tx.transaction.message.instructions.find(
-        (instruction) => {
-          if ('accounts' in instruction && instruction.accounts.length > 0) {
-            return instruction;
-          }
-        },
-      )?.programId;
+      const dapp = tx.transaction.message.instructions.find((instruction) => {
+        if ('accounts' in instruction && instruction.accounts.length > 0) {
+          return instruction;
+        }
+      })?.programId;
+
+      const tokenRecipient =
+        tx.transaction.message.accountKeys[0].pubkey.toString();
 
       return {
         slot: tx.slot,
@@ -179,13 +180,13 @@ export class AppService {
         sender: getTokenSender(
           tx.meta.preTokenBalances,
           token,
-          postTokenBalance.owner,
+          tokenRecipient,
           tx.meta.postTokenBalances,
         ),
-        recipient: tx.transaction.message.accountKeys[0].pubkey.toString(),
+        recipient: tokenRecipient,
         amount: amountBought.toFixed(postTokenBalance.uiTokenAmount.decimals),
 
-        dapp: senderFromInstructions?.toString(),
+        dapp: dapp?.toString(),
       };
     }
 
