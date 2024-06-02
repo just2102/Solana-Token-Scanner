@@ -49,7 +49,7 @@ export class AppService {
 
   private async getLatestTxForToken(token: string): Promise<LatestTx | null> {
     const tokenPublicKey = new PublicKey(token);
-    const LIMIT_MULTIPLIER = 1.5;
+    const LIMIT_MULTIPLIER = 1.2;
     const MAX_RETRIES = 5;
     const INITIAL_DELAY_MS = 50;
 
@@ -87,7 +87,7 @@ export class AppService {
     }
 
     console.warn(
-      `No buy transactions found for token ${token} after multiple retries`,
+      `No buy transactions found for token ${token} after multiple retries, retrieving latest cached TX`,
     );
     if (this.latestBuyTx) {
       return this.latestBuyTx;
