@@ -52,6 +52,7 @@ export class AppService {
     const LIMIT_MULTIPLIER = 1.2;
     const MAX_RETRIES = 5;
     const INITIAL_DELAY_MS = 50;
+    const MAX_DELAY_MS = 1000;
 
     let limit = 30;
     let retryCount = 0;
@@ -67,7 +68,7 @@ export class AppService {
         await delay(delayMs);
         limit *= LIMIT_MULTIPLIER;
         retryCount++;
-        delayMs *= 2;
+        delayMs = Math.min(delayMs * 2, MAX_DELAY_MS);
         continue;
       }
 
@@ -83,7 +84,7 @@ export class AppService {
       limit = Math.round(limit * LIMIT_MULTIPLIER);
       retryCount++;
       await delay(delayMs);
-      delayMs *= 2;
+      delayMs = Math.min(delayMs * 2, MAX_DELAY_MS);
     }
 
     console.warn(
