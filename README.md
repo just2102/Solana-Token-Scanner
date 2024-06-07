@@ -1,73 +1,145 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Solana Token Scanner
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+The **Solana Token Scanner** is a tool designed to interact with the Solana blockchain to fetch and display information about specific tokens. It provides detailed metadata about tokens, including their liquidity in USD and the latest buy transactions. This tool is especially useful for developers and users who need to monitor token activity on the Solana network.
 
-## Description
+## Features
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Fetch Token Metadata**: Retrieves and displays details such as token name, symbol, and liquidity in USD.
+- **Latest Buy Transaction**: Identifies and shows the most recent buy transaction for a specified token, including details like sender, recipient, and amount.
+- **Configurable Connection**: Easily connects to different Solana RPC URLs by adjusting environment settings.
+
+## Prerequisites
+
+- **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+- **NestJS**: The application is built with the NestJS framework. You can learn more and install it from [nestjs.com](https://nestjs.com/).
 
 ## Installation
 
-```bash
-$ yarn install
-```
+1. **Clone the Repository**
 
-## Running the app
+   ```bash
+   git clone https://github.com/just2102/Solana-Token-Scanner.git
+   cd Solana-Token-Scanner
+   ```
 
-```bash
-# development
-$ yarn run start
+2. **Install Dependencies**
 
-# watch mode
-$ yarn run start:dev
+   ```bash
+   yarn
+   ```
 
-# production mode
-$ yarn run start:prod
-```
+3. **Configure Environment Variables**
 
-## Test
+   Create a `.env` file in the root directory and add your Solana RPC URL:
 
-```bash
-# unit tests
-$ yarn run test
+   ```plaintext
+   SOLANA_URL=https://api.mainnet-beta.solana.com
+   ```
 
-# e2e tests
-$ yarn run test:e2e
+## Usage
 
-# test coverage
-$ yarn run test:cov
-```
+1. **Run the Application**
 
-## Support
+   To start the application and fetch token information, use:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+   ```bash
+   yarn start:dev
+   ```
 
-## Stay in touch
+2. **Fetch Token Information**
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+   You can fetch token details by sending a GET request to the `/token` endpoint. For example:
+
+   ```bash
+   curl -X GET http://localhost:3000/token?token=<TOKEN_ADDRESS>
+   ```
+
+   Replace `<TOKEN_ADDRESS>` with the actual token address you want to query.
+
+3. **Example Command**
+
+   ```bash
+   curl -X GET http://localhost:3000/token?token=EXAMPLE_TOKEN_ADDRESS
+   ```
+
+   This will return a JSON response with token liquidity in USD and the latest buy transaction details.
+
+## API Endpoints
+
+- **GET /token**: Fetches metadata and the latest buy transaction for a specified token.
+
+  - **Parameters**:
+    - `token` (required): The public key of the token.
+
+  - **Response**:
+    ```json
+    {
+      "liquidity": 12345.67,
+      "latestBuyTx": {
+        "hash": "3G76Hx...",
+        "slot": 12345678,
+        "sender": "8F8A9V...",
+        "recipient": "9G9B9C...",
+        "amount": "100.00",
+        "dapp": "4K7L5M..."
+      }
+    }
+    ```
+
+## Code Overview
+
+### `AppService` Class
+
+- **Constructor**: Initializes the Solana connection using the RPC URL provided in the environment variables.
+- **`getToken` Method**: Fetches token information, including liquidity in USD and the latest buy transaction.
+- **`getLatestTxForToken` Method**: Retrieves the most recent buy transaction for a specified token.
+- **`fetchRecentSignatures` Method**: Fetches recent transaction signatures for a given token.
+- **`fetchTransactions` Method**: Fetches transaction details using the signatures obtained.
+- **`findLatestBuyTx` Method**: Analyzes transactions to find and return the most recent buy transaction for the specified token.
+
+### `AppController` Class
+
+- **`getToken` Method**: Endpoint to fetch token metadata and latest buy transaction.
+
+### Data Structures
+
+- **`GetTokenResponseDto`**: Data transfer object for returning token metadata and the latest buy transaction.
+- **`ScreenerResponse`**: Interface for handling the response from the external API providing token data.
+- **`LatestTx`**: Interface for the details of the latest buy transaction.
+
+## Configuration
+
+- **`SOLANA_URL`**: Set this to your desired Solana RPC URL to connect to the Solana blockchain network.
+
+## Contributing
+
+1. **Fork the Repository**
+2. **Create a New Branch**
+
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+
+3. **Commit Your Changes**
+
+   ```bash
+   git commit -m 'Add some feature'
+   ```
+
+4. **Push to the Branch**
+
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+
+5. **Create a Pull Request**
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+Special thanks to the Solana community for providing extensive documentation and support.
