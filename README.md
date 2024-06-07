@@ -53,7 +53,7 @@ The **Solana Token Scanner** is a tool designed to interact with the Solana bloc
    You can fetch token details by sending a GET request to the `/token` endpoint. For example:
 
    ```bash
-   curl -X GET http://localhost:3000/token?token=<TOKEN_ADDRESS>
+   curl -X GET http://localhost:3000/token/<TOKEN_ADDRESS>
    ```
 
    Replace `<TOKEN_ADDRESS>` with the actual token address you want to query.
@@ -61,7 +61,7 @@ The **Solana Token Scanner** is a tool designed to interact with the Solana bloc
 3. **Example Command**
 
    ```bash
-   curl -X GET http://localhost:3000/token?token=EXAMPLE_TOKEN_ADDRESS
+   curl -X GET http://localhost:3000/token/EXAMPLE_TOKEN_ADDRESS
    ```
 
    This will return a JSON response with token liquidity in USD and the latest buy transaction details.
@@ -71,6 +71,7 @@ The **Solana Token Scanner** is a tool designed to interact with the Solana bloc
 - **GET /token**: Fetches metadata and the latest buy transaction for a specified token.
 
   - **Parameters**:
+
     - `token` (required): The public key of the token.
 
   - **Response**:
