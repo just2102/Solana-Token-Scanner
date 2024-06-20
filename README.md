@@ -89,21 +89,6 @@ The **Solana Token Scanner** is a tool designed to interact with the Solana bloc
     }
     ```
 
-## Code Overview
-
-### `AppService` Class
-
-- **Constructor**: Initializes the Solana connection using the RPC URL provided in the environment variables.
-- **`getToken` Method**: Fetches token information, including liquidity in USD and the latest buy transaction.
-- **`getLatestTxForToken` Method**: Retrieves the most recent buy transaction for a specified token.
-- **`fetchRecentSignatures` Method**: Fetches recent transaction signatures for a given token.
-- **`fetchTransactions` Method**: Fetches transaction details using the signatures obtained.
-- **`findLatestBuyTx` Method**: Analyzes transactions to find and return the most recent buy transaction for the specified token.
-
-### `AppController` Class
-
-- **`getToken` Method**: Endpoint to fetch token metadata and latest buy transaction.
-
 ### Data Structures
 
 - **`GetTokenResponseDto`**: Data transfer object for returning token metadata and the latest buy transaction.
