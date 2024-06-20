@@ -121,11 +121,3 @@ The **Solana Token Scanner** is a tool designed to interact with the Solana bloc
    ```
 
 5. **Create a Pull Request**
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-Special thanks to the Solana community for providing extensive documentation and support.
